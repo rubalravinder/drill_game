@@ -19,3 +19,8 @@ class Terrain:
         Plots in colorbar the 2D array
         """
         plt.imshow(self.terrain)
+    
+    def calculate_gain(self, x, y):
+        """
+        Returns the gain for a set of coordinate values"""
+        return self.terrain[x][y]
