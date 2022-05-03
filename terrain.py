@@ -13,12 +13,6 @@ class Terrain:
         x, y = np.meshgrid(x, y)
         terrain = np.sqrt((x-self.x_center)**2+(y-self.y_center)**2)
         return self.terrain
-
-    def plot_terrain(self):
-        """
-        Plots in colorbar the 2D array
-        """
-        plt.imshow(self.terrain)
     
     def calculate_gain(self, x, y):
         """
