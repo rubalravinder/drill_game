@@ -1,36 +1,52 @@
-class Prospect_random():
+# Imports
+import numpy as np
+import matplotlib as mlp
+from scipy.stats import bernoulli
+from terrain import *
+from vizualizer import *
+
+
+
+
+class Prospect_greedy():
     
-    def __init__(self, terrain, threshold = 0.8):
+    def __init__(self, terrain, epsilon = 0.1):
         self.terrain = terrain
-        self.threshold = threshold
-        self.x = random.randint(0,len(terrain) - 1)
-        self.y = random.randint(0,len(terrain[0] - 1))
-        self.gain = terrain[self.x][self.y]
-        self.hist = [(self.x, self.y, self.gain)]
-        
+        self.epsilon = epsilon
+        self.xmax = terrain.h_w - 1
+        self.ymax = terrain.h_w - 1
+        self.x = np.random.randint(0,self.xmax)
+        self.y = np.random.randint(0,self.ymax)
+        self.hist = [[[]] * self.xmax] * self.ymax
+        self.esp = np.zeros((self.xmax, self.ymax))
+        self.ruby_hist = []
+
+
     def next_pick(self):
-        while self.gain <= self.threshold :
-            self.random_pick()
+        self.d = np.random.random()
+        if self.epsilon < self.d :
+            self.max_esp()
+        else :
+            self.uniform()
+        self.esp[self.x][self.y] = np.mean(self.hist[self.x][self.y])
+
+
+        
         
 
+    def uniform(self):
+        self.x = np.random.randint(0, self.xmax)
+        self.y = np.random.randint(0, self.ymax)
+        self.hist[self.x][self.y].append(self.terrain.calculate_gain(self.x, self.y))
+        self.ruby_hist.append(self.terrain.calculate_gain(self.x, self.y))
 
-    def little_step(self):
-        self.x += 1
-        self.gain = terain[]
-        self.y += 0
 
-    
-    def random_pick(self):
-        x = random.randint(0,len(self.terrain) - 1)
-        y = random.randint(0,len(self.terrain[0] - 1))
-        gain = terrain[x][y]
-        self.hist.append((x,y,gain))
-    
+    def max_esp(self):
 
-        return (x,y,gain)
-    
-    def gain_calcul(self):
-        return terrain[self.x][self.y]
+        result = np.where(self.esp == np.amax(self.esp ))
+        self.x = int(result[0][0])
+        self.y = int(result[1][0])
+        self.hist[self.x][self.y].append(self.terrain.calculate_gain(self.x, self.y))
+        self.ruby_hist.append(self.terrain.calculate_gain(self.x, self.y))
 
-    # def check_position(self)
-    
+

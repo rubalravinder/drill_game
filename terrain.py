@@ -1,17 +1,18 @@
-class Terrain:
-    def __init__(self, h_w, p):
-        self.h_w = h_w
-        self.p = p
+import numpy as np 
+from scipy.stats import bernoulli
 
-    def generate_terrain(self, x_center, y_center):
+class Terrain: 
+
+    def __init__(self, h_w, p, x_center, y_center):
         """
         Generate a 2D array with a radial gradient
         """
+        self.h_w = h_w
+        self.p = p
         x = np.linspace(-10, 10, self.h_w)
         y = np.linspace(-10, 10, self.h_w)
         x, y = np.meshgrid(x, y)
-        terrain = np.sqrt((x-x_center)**2+(y-y_center)**2)
-        return self.terrain
+        self.terrain = np.sqrt((x-x_center)**2+(y-y_center)**2)
     
     def calculate_gain(self, x, y):
         """
